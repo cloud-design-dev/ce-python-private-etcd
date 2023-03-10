@@ -6,30 +6,27 @@ import etcd3
 import logging
 from logdna import LogDNAHandler
 
-for name, value in os.environ.items():
-    print("{0}: {1}".format(name, value))
-# logDnaIngestionKey = os.environ['LOGDNA_INGESTION_KEY']
+# Useful for debugging, prints all environment variables
+# for name, value in os.environ.items():
+#     print("{0}: {1}".format(name, value))
 
-# log = logging.getLogger('logdna')
-# log.setLevel(logging.INFO)
+# Set up logging to LogDNA
+loggingIngestionKey = os.environ.get('LOGDNA_INGESTION_KEY')
 
-# options = {
-#   'hostname': 'pytest',
-#   'ip': '10.0.1.1',
-#   'mac': 'C0:FF:EE:C0:FF:EE'
-# }
+log = logging.getLogger('logdna')
+log.setLevel(logging.INFO)
 
-# # Defaults to False; when True meta objects are searchable
-# options['index_meta'] = True
-# options['custom_fields'] = 'meta'
+options = {
+  'app': 'python-etcd-private-test',
+  'env': 'code-engine',
+}
 
+loggingClient = LogDNAHandler(loggingIngestionKey, options)
 
-# test = LogDNAHandler(key, options)
+log.addHandler(loggingClient)
 
-# log.addHandler(test)
-
-# log.warning("Warning message", extra={'app': 'bloop'})
-# log.info("Info message")
+log.warning("Warning message", extra={'app': 'bloop'})
+log.info("This is an Info message from private etce python app testing")
 # Pull database connection details via Code Engine environment variable
 # do some base64 decoding and type manipulation to get everything humming along
 # etcdServiceVars = os.environ.get('DATABASES_FOR_ETCD_CONNECTION')

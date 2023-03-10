@@ -20,13 +20,14 @@ jobs:
     - uses: actions/checkout@v3
     - name: Get current date
       id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+      # run: echo "::set-output name=date::"
     - name: Buildah Action
       id: build-image
       uses: redhat-actions/buildah-build@v2
       with:
         image: ${{ env.ICR_NAMESPACE  }}/${{ env.IMAGE_NAME }}
-        tags: latest ${{ steps.date.outputs.date }}
+        tags: latest ${{ steps.date.outputs.date }}}
         containerfiles: |
           ./Dockerfile
     - name: Push To ICR
