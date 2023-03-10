@@ -12,21 +12,23 @@ from logdna import LogDNAHandler
 
 # Set up logging to LogDNA
 loggingIngestionKey = os.environ.get('LOGDNA_INGESTION_KEY')
-print(loggingIngestionKey)
-# log = logging.getLogger('logdna')
+# print(loggingIngestionKey)
 
-# options = {
-#   'app': 'python-etcd-private-test',
-#   'env': 'code-engine',
-#   'level': 'info'
-# }
+log = logging.getLogger('logdna')
 
-# loggingClient = LogDNAHandler(loggingIngestionKey, options)
+options = {
+  'app': 'python-etcd-private-test',
+  'env': 'code-engine',
+  'level': 'info',
+  'url': 'https://logs.us-south.logging.cloud.ibm.com/logs/ingest'
+}
 
-# log.addHandler(loggingClient)
+loggingClient = LogDNAHandler(loggingIngestionKey, options)
 
-# log.warning("Warning message", extra={'app': 'bloop'})
-# log.info("This is an Info message from private etce python app testing")
+log.addHandler(loggingClient)
+
+log.warning("Warning message", extra={'app': 'bloop'})
+log.info("This is an Info message from private etce python app testing")
 # Pull database connection details via Code Engine environment variable
 # do some base64 decoding and type manipulation to get everything humming along
 # etcdServiceVars = os.environ.get('DATABASES_FOR_ETCD_CONNECTION')
