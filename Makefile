@@ -1,6 +1,6 @@
 push-and-follow: gh-push gh-watch 
 
-gh-watch: gh-run-watch
+gh-watch: gh-run-watch ce-submit-job
 
 gh-push:
 	git add . && git commit -m "Building new container image" && git push
