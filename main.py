@@ -27,10 +27,6 @@ loggingClient = LogDNAHandler(loggingIngestionKey, options)
 
 log.addHandler(loggingClient)
 
-log.warning("Warning message", extra={'app': 'bloop'})
-log.info("This is an Info message from private etce python app testing")
-Pull database connection details via Code Engine environment variable
-do some base64 decoding and type manipulation to get everything humming along
 etcdServiceVars = os.environ.get('DATABASES_FOR_ETCD_CONNECTION')
 connectionJson = json.loads(etcdServiceVars)
 connectionVars = list(connectionJson.values())[1]
@@ -56,8 +52,8 @@ etcdClient = etcd3.client(
 )
 
 def etcdWrite(etcdClient):
-    print("Connected to etcd service...")
-    print("Attempting to write albumns to etcd:")
+    log.info("Connected to etcd service...")
+    log.info("Attempting to write albumns to etcd:")
     etcdClient.put('/radiohead/albums/1', 'pablo-honey')
     etcdClient.put('/radiohead/albums/2', 'the-bends')
     etcdClient.put('/radiohead/albums/3', 'ok-computer')
@@ -67,9 +63,9 @@ def etcdWrite(etcdClient):
     etcdClient.put('/radiohead/albums/7', 'in-rainbows')
     etcdClient.put('/radiohead/albums/8', 'the-king-of-limbs')
     etcdClient.put('/radiohead/albums/9', 'a-moon-shaped-pool')
-    print("Albums written to etcd")
+    log.info("Albums written to etcd")
 try:
     etcdWrite(etcdClient)
 
 except KeyError():
-    print("KeyError: Unable to write to etcd service")
+    log.error("KeyError: Unable to write to etcd service")
