@@ -45,7 +45,7 @@ with open(etcdCert, 'w+') as output_file:
 etcdClient = etcd3.client(
     host=connectionVars['hosts'][0]['hostname'], 
     port=connectionVars['hosts'][0]['port'], 
-    ca_cert=certname, 
+    ca_cert=certName, 
     timeout=10, 
     user=connectionVars['authentication']['username'], 
     password=connectionVars['authentication']['password']
